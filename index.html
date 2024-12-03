@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Student Network</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="/Images/4.png" alt="Logo">
+      </div>
+      <h1 class="title">The Student Network</h1>
+      <ul>
+        <li><a href="/templates/index.html">Home</a></li>
+        <li><a href="/templates/aboutus.html">About Us</a></li>
+      </ul>
+      <button class="loginbtn" id="loginBtn">Login</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Content Section -->
+    <section class="content">
+      <a href="/templates/notes.html">
+        <div class="card">
+          <h3>Notes</h3>
+          <p>Access your notes quickly and easily.</p>
+        </div>
+      </a>
+
+      <a href="/templates/project.html">
+        <div class="card">
+          <h3>Projects</h3>
+          <p>Explore various project ideas and details.</p>
+        </div>
+      </a>
+
+      <a href="/templates/paper.html">
+        <div class="card">
+          <h3>Question Papers</h3>
+          <p>Find previous years' question papers.</p>
+        </div>
+      </a>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="announcements">
+      <h2>Announcements</h2>
+      <ul>
+        <li>New notes added for the Computer Science course!</li>
+        <li>Upcoming project submission deadline: December 1st.</li>
+        <li>Question papers for 2023 are now available.</li>
+      </ul>
+    </section>
+    <center>
+      <section class="request-section">
+        <h3>IF YOU HAVE NOT FOUND THE DESIRED RESOURCE, THEN YOU CAN MAKE</h3>
+        <button class="reqbtn" id="requestBtn">Request</button>
+      </section>
+    </center>    
+  </main>
+<br>
+  <!-- Footer -->
+  <footer>
+    <p>Contact us at: <a href="mailto:randomemail@example.com">randomemail@example.com</a></p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    let isLoggedIn = false; // Simulated login status
+
+    // Login Button Logic
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      // Redirect to login/signup page
+      window.location.href = "/templates/login.html";
+    });
+
+    // Request Button Logic
+    document.getElementById('requestBtn').addEventListener('click', () => {
+      if (!isLoggedIn) {
+        alert("You must be logged in to make a request!");
+        // Redirect to login/signup
+        window.location.href = "/templates/login.html";
+      } else {
+        const userRequest = prompt("Enter your request:");
+        if (userRequest) {
+          sendRequest(userRequest);
+        }
+      }
+    });
+
+    // Function to send the user's request to the backend
+    async function sendRequest(message) {
+      try {
+        const response = await fetch('/send-request', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("Your request has been sent!");
+        } else {
+          alert("Failed to send request. Try again later.");
+        }
+      } catch (error) {
+        console.error("Error sending request:", error);
+        alert("An error occurred. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
